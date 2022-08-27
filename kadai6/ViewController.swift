@@ -20,7 +20,8 @@ public class ViewController: UIViewController {
     }
 
     @IBAction private func judgementButton(_ sender: Any) {
-        if Int(randomValue.text ?? "") == answer {
+        let answerValue = Int(randomValue.text ?? "")
+        if answerValue == answer {
             displayAlert(answerValue: "\(answer)", result: "あたり！")
             return
         }
