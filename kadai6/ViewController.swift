@@ -14,22 +14,25 @@ public class ViewController: UIViewController {
     @IBOutlet private weak var slider: UISlider!
 
     override public func viewDidLoad() {
-        answer = defaultValue
-        self.slider.value = Float(defaultValue)
-        randomValue.text = getRandomValue()
+        super.viewDidLoad()
+        resetGame()
     }
 
     @IBAction private func judgementButton(_ sender: Any) {
         let answerValue = Int(randomValue.text ?? "")
+
+        let result: String
         if answerValue == answer {
-            displayAlert(answerValue: "\(answer)", result: "あたり！")
-            return
+            result = "あたり！"
+        } else {
+            result = "ハズレ"
         }
-        displayAlert(answerValue: "\(answer)", result: "ハズレ")
+
+        displayAlert(answerValue: "\(answer)", result: result)
     }
 
     @IBAction private func getSliderValue(_ sender: UISlider) {
-        answer = Int(self.slider.value)
+        answer = Int(slider.value)
     }
 
     private func getRandomValue() -> String {
@@ -42,10 +45,16 @@ public class ViewController: UIViewController {
         // Alert内容作成
         let alert = UIAlertController(title: "結果", message: "\(result)\nあなたの値:\(answerValue)", preferredStyle: .alert)
         // retryボタンアクション作成
-        let retryButton = UIAlertAction(title: "Retry", style: .default, handler: {_ in self.viewDidLoad()})
+        let retryButton = UIAlertAction(title: "Retry", style: .default, handler: {_ in self.resetGame()})
         // retryボタン機能追加
         alert.addAction(retryButton)
         // Alert表示
         present(alert, animated: true)
+    }
+
+    private func resetGame() {
+        answer = defaultValue
+        slider.value = Float(defaultValue)
+        randomValue.text = getRandomValue()
     }
 }
